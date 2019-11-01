@@ -6,7 +6,7 @@
 /*   By: yjohns <yjohns@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/31 19:38:06 by yjohns            #+#    #+#             */
-/*   Updated: 2019/11/01 04:57:54 by yjohns           ###   ########.fr       */
+/*   Updated: 2019/11/01 16:15:19 by yjohns           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,34 @@ int		b_close(void *param)
 	exit(0);
 }
 
+//126 up
+//125 down
+//124 right
+//123 left
+//78 +
+//69 -
+
 int		key_press(int keycode, void *param)
 {
-	(void)param;
+	t_mlx	*m;
+
+	m = (t_mlx *)param;
 	if (keycode == 53)
 		exit(0);
+	if (keycode == 78)
+	{
+		m->Ox *= 0.95;
+		m->Oy *= 0.95;
+		m->num_iteration += 2;
+	}
+	if (keycode == 69)
+	{
+		m->Ox *= 1.1;
+		m->Oy *= 1.1;
+		m->num_iteration -= 2;
+	}
+	m->coef = m->Ox / SIZE_X;
+	fractol(*m);
 	return (0);
 }
 
@@ -53,7 +76,8 @@ void	ft_init(t_mlx *mlx, char *argc)
 			&(mlx->size_l), &(mlx->e));
 	mlx->Ox = 4;
 	mlx->Oy = 4;
-	mlx->coef = (float)mlx->Ox / SIZE_X;
+	mlx->zoom = 0;
+	mlx->coef = mlx->Ox / SIZE_X;
 	mlx->num_iteration = 255;
 }
 
@@ -67,7 +91,6 @@ int     main(int argv, char **argc)
 	fractol(m);
 	mlx_hook(m.win_ptr, 17, 0, b_close, &m);
 	mlx_hook(m.win_ptr, 2, 0, key_press, &m);
-	mlx_hook(m.win_ptr, 6, 0, julia_k, &m);
 	mlx_loop(&m);
     return (0);
 }

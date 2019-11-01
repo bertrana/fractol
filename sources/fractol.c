@@ -6,7 +6,7 @@
 /*   By: yjohns <yjohns@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/31 19:38:32 by yjohns            #+#    #+#             */
-/*   Updated: 2019/11/01 12:41:25 by yjohns           ###   ########.fr       */
+/*   Updated: 2019/11/01 16:17:58 by yjohns           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ int		color(t_mlx m, int iter)
 		return (0);
 }
 
-int		mandelbrot_draw(t_mlx m, float c[])
+int		mandelbrot_draw(t_mlx m, double c[])
 {
 	int 	iter;
-	float	tmp;
-	float 	z[2];
+	double	tmp;
+	double 	z[2];
 
 	iter = 0;
 	z[IM] = 0;
@@ -39,10 +39,10 @@ int		mandelbrot_draw(t_mlx m, float c[])
 	return (iter);
 }
 
-void    mandelbrot(t_mlx m, float z[2])
+void    mandelbrot(t_mlx m, double z[2])
 {
 	int 	count[3];
-	float	c[2];
+	double	c[2];
 
 	count[Y] = -1;
 	while (count[Y]++ < SIZE_Y - 1)
@@ -50,19 +50,19 @@ void    mandelbrot(t_mlx m, float z[2])
 		count[X] = 0;
 		while (count[X] < SIZE_X)
 		{
-			c[REAL] = (float)count[X] * m.coef - (float)m.Ox / 2;
-			c[IM] = (float)count[Y] * m.coef - (float)m.Oy / 2;
+			c[REAL] = (double)count[X] * m.coef - (double)m.Ox / 2;
+			c[IM] = (double)count[Y] * m.coef - (double)m.Oy / 2;
 			count[ITER] = mandelbrot_draw(m, c);
 			m.data[count[Y] * SIZE_X + count[X]++] = color(m, count[ITER]);
 		}
 	}
 }
 
-int		julia_draw(t_mlx m, float c[])
+int		julia_draw(t_mlx m, double c[])
 {
 	int 	iter;
-	float	tmp;
-	float 	z[2];
+	double	tmp;
+	double 	z[2];
 
 	iter = 0;
 	z[IM] = c[IM];
@@ -79,10 +79,10 @@ int		julia_draw(t_mlx m, float c[])
 	return (iter);
 }
 
-void	julia(t_mlx m, float z[2])
+void	julia(t_mlx m, double z[2])
 {
 	int 	count[3];
-	float	c[2];
+	double	c[2];
 
 	count[Y] = -1;
 	while (count[Y]++ < SIZE_Y - 1)
@@ -90,8 +90,8 @@ void	julia(t_mlx m, float z[2])
 		count[X] = 0;
 		while (count[X] < SIZE_X)
 		{
-			c[REAL] = (float)count[X] * m.coef - (float)m.Ox / 2;
-			c[IM] = (float)count[Y] * m.coef - (float)m.Oy / 2;
+			c[REAL] = (double)count[X] * m.coef - (double)m.Ox / 2;
+			c[IM] = (double)count[Y] * m.coef - (double)m.Oy / 2;
 			count[ITER] = julia_draw(m, c);
 			m.data[count[Y] * SIZE_X + count[X]++] = color(m, count[ITER]);
 		}
@@ -101,17 +101,17 @@ void	julia(t_mlx m, float z[2])
 
 int 	julia_k(int x, int y, t_mlx *m)
 {
-	float	z[2];
+	double	z[2];
 
-	m->k[REAL] = (float)(x + m->coef) / SIZE_X;
-	m->k[IM] = (float)(y + m->coef)/ SIZE_Y;
+	m->k[REAL] = (double)(x + m->coef) / SIZE_X;
+	m->k[IM] = (double)(y + m->coef)/ SIZE_Y;
 	julia(*m, z);
 	return (0);
 }
 
 void	fractol(t_mlx m)
 {
-	float	z[2];
+	double	z[2];
 
 	z[IM] = 0;
 	z[REAL] = 0;
@@ -119,7 +119,7 @@ void	fractol(t_mlx m)
 		mandelbrot(m, z);
 	else if (m.fract_type == 2)
 	{
-		julia(m, z);
+		mlx_hook(m.win_ptr, 6, 0, julia_k, &m);
 	}
 	mlx_put_image_to_window(m.ptr, m.win_ptr, m.img_ptr, 0, 0);
 }
