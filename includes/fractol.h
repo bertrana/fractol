@@ -6,7 +6,7 @@
 /*   By: yjohns <yjohns@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/01 05:32:11 by yjohns            #+#    #+#             */
-/*   Updated: 2019/11/01 11:05:14 by yjohns           ###   ########.fr       */
+/*   Updated: 2019/11/01 22:41:18 by yjohns           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 # include <math.h>
 //#include <zconf.h>
 
-# define SIZE_X 800
-# define SIZE_Y 800
+# define SIZE_X 1000
+# define SIZE_Y 1000
 
 # define MANDELBROT 1
 # define JULIA 2
@@ -44,13 +44,18 @@ typedef struct	s_mlx
     int			e;
 
     int 		fract_type;
-    float		coef;
 	int 		num_iteration;
+    double		coef_x; //shift
+//	double 		zoom;
 
-    int 		Ox;
-    int 		Oy;
+	double		max_X;
+	double		min_X;
+	double		max_Y;
+	double		min_Y;
+    double		move_x;
+    double		move_y;
 
-	float		k[2];
+	double		k[2];
 }				t_mlx;
 
 void	fractol(t_mlx m);

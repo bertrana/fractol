@@ -6,7 +6,7 @@
 /*   By: yjohns <yjohns@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/31 19:38:06 by yjohns            #+#    #+#             */
-/*   Updated: 2019/11/01 16:15:19 by yjohns           ###   ########.fr       */
+/*   Updated: 2019/11/02 01:18:56 by yjohns           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,27 @@ int		key_press(int keycode, void *param)
 		exit(0);
 	if (keycode == 78)
 	{
-		m->Ox *= 0.95;
-		m->Oy *= 0.95;
+		m->min_X *= 0.95;
+		m->min_Y *= 0.95;
+		m->max_Y *= 0.95;
+		m->max_X *= 0.95;
 		m->num_iteration += 2;
 	}
-	if (keycode == 69)
+	if (keycode == 69 && m->num_iteration > 2)
 	{
-		m->Ox *= 1.1;
-		m->Oy *= 1.1;
+		m->min_X *= 1.1;
+		m->min_Y *= 1.1;
+		m->max_Y *= 1.1;
+		m->max_X *= 1.1;
 		m->num_iteration -= 2;
 	}
-	m->coef = m->Ox / SIZE_X;
+	if (keycode == 46)
+	{
+		m->num_iteration += 2;
+	}
+	if (keycode == 37 && m->num_iteration > 2)
+		m->num_iteration -= 2;
+	m->coef_x = (m->max_X - m->min_X) / (SIZE_X - 1);
 	fractol(*m);
 	return (0);
 }
@@ -74,11 +84,15 @@ void	ft_init(t_mlx *mlx, char *argc)
 	mlx->img_ptr = mlx_new_image(mlx->ptr, SIZE_X, SIZE_Y);
 	mlx->data = (int *)mlx_get_data_addr(mlx->img_ptr, &(mlx->bpp),
 			&(mlx->size_l), &(mlx->e));
-	mlx->Ox = 4;
-	mlx->Oy = 4;
-	mlx->zoom = 0;
-	mlx->coef = mlx->Ox / SIZE_X;
-	mlx->num_iteration = 255;
+	mlx->max_X = 2;
+	mlx->max_Y = 2;
+	mlx->min_X = -2;
+	mlx->min_Y = -2;
+	mlx->move_x = 1;
+	mlx->move_y = 1;
+//	mlx->zoom = 0;
+	mlx->coef_x = (mlx->max_X - mlx->min_X)/ SIZE_X;
+	mlx->num_iteration = 200;
 }
 
 int     main(int argv, char **argc)
@@ -91,6 +105,7 @@ int     main(int argv, char **argc)
 	fractol(m);
 	mlx_hook(m.win_ptr, 17, 0, b_close, &m);
 	mlx_hook(m.win_ptr, 2, 0, key_press, &m);
+	mlx_hook(m.win_ptr, 6, 0, julia_k, &m);
 	mlx_loop(&m);
     return (0);
 }
