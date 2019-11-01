@@ -6,54 +6,120 @@
 /*   By: yjohns <yjohns@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/31 19:38:32 by yjohns            #+#    #+#             */
-/*   Updated: 2019/11/01 01:27:30 by yjohns           ###   ########.fr       */
+/*   Updated: 2019/11/01 12:41:25 by yjohns           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-void    fractol(t_mlx m)
+int		color(t_mlx m, int iter)
 {
-	int 	i = 0;
-	int 	j = 0;
-	float	coef;
-	float	complex;
-	int 	num_iteration;
-	float	comp_x;
-	float 	comp_y;
-	float 	z_im;
-	float	z_re;
+	if (m.num_iteration > iter)
+		return (0xFFFF - 0x1 * iter);
+	else
+		return (0);
+}
 
-	coef = (float)m.Ox / SIZE_X;
-	while (i < SIZE_Y)
+int		mandelbrot_draw(t_mlx m, float c[])
+{
+	int 	iter;
+	float	tmp;
+	float 	z[2];
+
+	iter = 0;
+	z[IM] = 0;
+	z[REAL] = 0;
+	while (iter++ < m.num_iteration &&
+		   z[IM] * z[IM] + z[REAL] * z[REAL] < 4)
 	{
-		j = 0;
-		while (j < SIZE_X)
+		tmp = z[IM];
+		z[IM] = 2 * z[REAL] * z[IM] + c[IM];
+		z[REAL] = z[REAL] * z[REAL] - tmp * tmp + c[REAL];
+	}
+	return (iter);
+}
+
+void    mandelbrot(t_mlx m, float z[2])
+{
+	int 	count[3];
+	float	c[2];
+
+	count[Y] = -1;
+	while (count[Y]++ < SIZE_Y - 1)
+	{
+		count[X] = 0;
+		while (count[X] < SIZE_X)
 		{
-			//printf("i = %d\nj = %d\n\n", i, j);
-			comp_x = (float)(j) * coef - m.Ox / 2;
-			comp_y = (float)i * coef - m.Oy/2;
-			num_iteration = 0;
-			z_im = 0;
-			z_re = 0;
-			float tmp;
-			while (num_iteration < 255)
-			{
-				tmp = z_im;
-				z_im = 2 * z_re * z_im + comp_y;
-				z_re = z_re * z_re - tmp * tmp + comp_x;
-				if (z_im * z_im + z_re * z_re > 4)
-				{
-					m.data[i * SIZE_X + j] = 0xFF0000;
-					break;
-				}
-				num_iteration++;
-			}
-			if (num_iteration != 255)
-				m.data[i * SIZE_X + j] = 0xFFFF - 0x1 * num_iteration;
-			j++;
+			c[REAL] = (float)count[X] * m.coef - (float)m.Ox / 2;
+			c[IM] = (float)count[Y] * m.coef - (float)m.Oy / 2;
+			count[ITER] = mandelbrot_draw(m, c);
+			m.data[count[Y] * SIZE_X + count[X]++] = color(m, count[ITER]);
 		}
-		i++;
+	}
+}
+
+int		julia_draw(t_mlx m, float c[])
+{
+	int 	iter;
+	float	tmp;
+	float 	z[2];
+
+	iter = 0;
+	z[IM] = c[IM];
+	z[REAL] = c[REAL];
+	c[REAL] = m.k[REAL];
+	c[IM] = m.k[IM];
+	while (iter++ < m.num_iteration &&
+		   z[IM] * z[IM] + z[REAL] * z[REAL] < 4)
+	{
+		tmp = z[IM];
+		z[IM] = 2 * z[REAL] * z[IM] + c[IM];
+		z[REAL] = z[REAL] * z[REAL] - tmp * tmp + c[REAL];
+	}
+	return (iter);
+}
+
+void	julia(t_mlx m, float z[2])
+{
+	int 	count[3];
+	float	c[2];
+
+	count[Y] = -1;
+	while (count[Y]++ < SIZE_Y - 1)
+	{
+		count[X] = 0;
+		while (count[X] < SIZE_X)
+		{
+			c[REAL] = (float)count[X] * m.coef - (float)m.Ox / 2;
+			c[IM] = (float)count[Y] * m.coef - (float)m.Oy / 2;
+			count[ITER] = julia_draw(m, c);
+			m.data[count[Y] * SIZE_X + count[X]++] = color(m, count[ITER]);
+		}
+	}
+	mlx_put_image_to_window(m.ptr, m.win_ptr, m.img_ptr, 0, 0);
+}
+
+int 	julia_k(int x, int y, t_mlx *m)
+{
+	float	z[2];
+
+	m->k[REAL] = (float)(x + m->coef) / SIZE_X;
+	m->k[IM] = (float)(y + m->coef)/ SIZE_Y;
+	julia(*m, z);
+	return (0);
+}
+
+void	fractol(t_mlx m)
+{
+	float	z[2];
+
+	z[IM] = 0;
+	z[REAL] = 0;
+	if (m.fract_type == 1)
+		mandelbrot(m, z);
+	else if (m.fract_type == 2)
+	{
+		julia(m, z);
 	}
 	mlx_put_image_to_window(m.ptr, m.win_ptr, m.img_ptr, 0, 0);
 }

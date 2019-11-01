@@ -92,4 +92,4 @@ add_executable(fractol
 		minilibx_macos/mlx_xpm.c
 		sources/functions.c
 		sources/main.c
-		sources/window.c)
+		sources/fractol.c)

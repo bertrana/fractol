@@ -1,2 +1,2 @@
-# fractol
+# mandelbrot
 some wow graphics

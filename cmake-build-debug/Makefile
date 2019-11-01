@@ -2202,6 +2202,33 @@ minilibx_macos/mlx_xpm.c.s:
 	$(MAKE) -f CMakeFiles/fractol.dir/build.make CMakeFiles/fractol.dir/minilibx_macos/mlx_xpm.c.s
 .PHONY : minilibx_macos/mlx_xpm.c.s
 
+sources/fractol.o: sources/fractol.c.o
+
+.PHONY : sources/fractol.o
+
+# target to build an object file
+sources/fractol.c.o:
+	$(MAKE) -f CMakeFiles/fractol.dir/build.make CMakeFiles/fractol.dir/sources/fractol.c.o
+.PHONY : sources/fractol.c.o
+
+sources/fractol.i: sources/fractol.c.i
+
+.PHONY : sources/fractol.i
+
+# target to preprocess a source file
+sources/fractol.c.i:
+	$(MAKE) -f CMakeFiles/fractol.dir/build.make CMakeFiles/fractol.dir/sources/fractol.c.i
+.PHONY : sources/fractol.c.i
+
+sources/fractol.s: sources/fractol.c.s
+
+.PHONY : sources/fractol.s
+
+# target to generate assembly for a file
+sources/fractol.c.s:
+	$(MAKE) -f CMakeFiles/fractol.dir/build.make CMakeFiles/fractol.dir/sources/fractol.c.s
+.PHONY : sources/fractol.c.s
+
 sources/functions.o: sources/functions.c.o
 
 .PHONY : sources/functions.o
@@ -2255,33 +2282,6 @@ sources/main.s: sources/main.c.s
 sources/main.c.s:
 	$(MAKE) -f CMakeFiles/fractol.dir/build.make CMakeFiles/fractol.dir/sources/main.c.s
 .PHONY : sources/main.c.s
-
-sources/window.o: sources/window.c.o
-
-.PHONY : sources/window.o
-
-# target to build an object file
-sources/window.c.o:
-	$(MAKE) -f CMakeFiles/fractol.dir/build.make CMakeFiles/fractol.dir/sources/window.c.o
-.PHONY : sources/window.c.o
-
-sources/window.i: sources/window.c.i
-
-.PHONY : sources/window.i
-
-# target to preprocess a source file
-sources/window.c.i:
-	$(MAKE) -f CMakeFiles/fractol.dir/build.make CMakeFiles/fractol.dir/sources/window.c.i
-.PHONY : sources/window.c.i
-
-sources/window.s: sources/window.c.s
-
-.PHONY : sources/window.s
-
-# target to generate assembly for a file
-sources/window.c.s:
-	$(MAKE) -f CMakeFiles/fractol.dir/build.make CMakeFiles/fractol.dir/sources/window.c.s
-.PHONY : sources/window.c.s
 
 # Help Target
 help:
@@ -2523,15 +2523,15 @@ help:
 	@echo "... minilibx_macos/mlx_xpm.o"
 	@echo "... minilibx_macos/mlx_xpm.i"
 	@echo "... minilibx_macos/mlx_xpm.s"
+	@echo "... sources/fractol.o"
+	@echo "... sources/fractol.i"
+	@echo "... sources/fractol.s"
 	@echo "... sources/functions.o"
 	@echo "... sources/functions.i"
 	@echo "... sources/functions.s"
 	@echo "... sources/main.o"
 	@echo "... sources/main.i"
 	@echo "... sources/main.s"
-	@echo "... sources/window.o"
-	@echo "... sources/window.i"
-	@echo "... sources/window.s"
 .PHONY : help
 
 

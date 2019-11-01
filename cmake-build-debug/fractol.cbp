@@ -332,13 +332,13 @@
 		<Unit filename="/Users/yjohns/fractol/minilibx_macos/mlx_xpm.c">
 			<Option target="fractol"/>
 		</Unit>
+		<Unit filename="/Users/yjohns/fractol/sources/fractol.c">
+			<Option target="fractol"/>
+		</Unit>
 		<Unit filename="/Users/yjohns/fractol/sources/functions.c">
 			<Option target="fractol"/>
 		</Unit>
 		<Unit filename="/Users/yjohns/fractol/sources/main.c">
-			<Option target="fractol"/>
-		</Unit>
-		<Unit filename="/Users/yjohns/fractol/sources/window.c">
 			<Option target="fractol"/>
 		</Unit>
 		<Unit filename="/Users/yjohns/fractol/CMakeLists.txt">
