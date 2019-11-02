@@ -90,6 +90,5 @@ add_executable(fractol
 		minilibx_macos/mlx_rgb.c
 		minilibx_macos/mlx_shaders.c
 		minilibx_macos/mlx_xpm.c
-		sources/functions.c
 		sources/main.c
 		sources/fractol.c)

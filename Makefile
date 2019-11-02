@@ -20,7 +20,10 @@ LIB_DIR = libft/
 LFT = $(addprefix $(LIB_DIR), $(LIB_NAME))
 
 C_FILES =	main.c\
-			fractol.c
+			fractol.c\
+			julia.c\
+			key_press.c\
+			mandelbrot.c
 
 HEADERS = $(INC_DIR)fractol.h $(LIB_DIR)libft.h
 
