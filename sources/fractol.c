@@ -6,7 +6,7 @@
 /*   By: yjohns <yjohns@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/31 19:38:32 by yjohns            #+#    #+#             */
-/*   Updated: 2019/11/02 01:11:53 by yjohns           ###   ########.fr       */
+/*   Updated: 2019/11/02 02:58:43 by yjohns           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,44 @@ int 	julia_k(int x, int y, t_mlx *m)
 	return (0);
 }
 
+int		ship_draw(t_mlx m, double c[])
+{
+	int 	iter;
+	double	tmp;
+	double 	z[2];
+
+	iter = 0;
+	z[IM] = 0;
+	z[REAL] = 0;
+	while (iter++ < m.num_iteration &&
+		   z[IM] * z[IM] + z[REAL] * z[REAL] < 4)
+	{
+		tmp = z[IM];
+		z[IM] = -2 * fabs(z[REAL] * z[IM]) + c[IM];
+		z[REAL] = z[REAL] * z[REAL] - tmp * tmp + c[REAL];
+	}
+	return (iter);
+}
+
+void    ship(t_mlx m, double z[2])
+{
+	int 	count[3];
+	double	c[2];
+
+	count[Y] = -1;
+	while (count[Y]++ < SIZE_Y - 1)
+	{
+		count[X] = 0;
+		while (count[X] < SIZE_X)
+		{
+			c[REAL] = m.min_X + (double)count[X] * m.coef_x - (double)m.move_x / SIZE_X;
+			c[IM] = m.max_Y - (double)count[Y] * m.coef_x - (double)m.move_y / SIZE_Y;
+			count[ITER] = ship_draw(m, c);
+			m.data[count[Y] * SIZE_X + count[X]++] = color(m, count[ITER]);
+		}
+	}
+}
+
 void	fractol(t_mlx m)
 {
 	double	z[2];
@@ -131,7 +169,9 @@ void	fractol(t_mlx m)
 	z[REAL] = 0;
 	if (m.fract_type == 1)
 		mandelbrot(m, z);
-	else
+	else if (m.fract_type == 2)
 		julia(m, m.k);
+	else if (m.fract_type == 3)
+		ship(m, z);
 	mlx_put_image_to_window(m.ptr, m.win_ptr, m.img_ptr, 0, 0);
 }

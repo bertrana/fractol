@@ -6,7 +6,7 @@
 /*   By: yjohns <yjohns@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/01 05:32:11 by yjohns            #+#    #+#             */
-/*   Updated: 2019/11/01 22:41:18 by yjohns           ###   ########.fr       */
+/*   Updated: 2019/11/02 02:58:03 by yjohns           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 
 # define MANDELBROT 1
 # define JULIA 2
+# define BURNING_SHIP 3
 
 #define IM 0
 #define REAL 1
@@ -45,8 +46,7 @@ typedef struct	s_mlx
 
     int 		fract_type;
 	int 		num_iteration;
-    double		coef_x; //shift
-//	double 		zoom;
+    double		coef_x;
 
 	double		max_X;
 	double		min_X;

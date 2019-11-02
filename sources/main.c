@@ -6,7 +6,7 @@
 /*   By: yjohns <yjohns@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/31 19:38:06 by yjohns            #+#    #+#             */
-/*   Updated: 2019/11/02 01:18:56 by yjohns           ###   ########.fr       */
+/*   Updated: 2019/11/02 03:08:53 by yjohns           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,6 @@ int		b_close(void *param)
 	exit(0);
 }
 
-//126 up
-//125 down
-//124 right
-//123 left
-//78 +
-//69 -
-
 int		key_press(int keycode, void *param)
 {
 	t_mlx	*m;
@@ -32,6 +25,9 @@ int		key_press(int keycode, void *param)
 	m = (t_mlx *)param;
 	if (keycode == 53)
 		exit(0);
+	(keycode == 18) && (m->fract_type = 1);
+	(keycode == 19) && (m->fract_type = 2);
+	(keycode == 20) && (m->fract_type = 3);
 	if (keycode == 78)
 	{
 		m->min_X *= 0.95;
@@ -48,12 +44,8 @@ int		key_press(int keycode, void *param)
 		m->max_X *= 1.1;
 		m->num_iteration -= 2;
 	}
-	if (keycode == 46)
-	{
-		m->num_iteration += 2;
-	}
-	if (keycode == 37 && m->num_iteration > 2)
-		m->num_iteration -= 2;
+	(keycode == 46) && (m->num_iteration += 2);
+	(keycode == 37 && m->num_iteration > 2) && (m->num_iteration -= 2);
 	m->coef_x = (m->max_X - m->min_X) / (SIZE_X - 1);
 	fractol(*m);
 	return (0);
@@ -65,7 +57,7 @@ void	ex_error(int num)
 
 	write_err = NULL;
 	if (num == 1)
-		write_err = "Mandelbrot\nJulia\n";
+		write_err = "Write one of this:\nMandelbrot\nJulia\nShip\n";
 
 	write(2, write_err, ft_strlen(write_err) + 1);
 	exit(EXIT_FAILURE);
@@ -77,6 +69,8 @@ void	ft_init(t_mlx *mlx, char *argc)
 		mlx->fract_type = MANDELBROT;
 	else if (ft_strcmp(argc, "Julia") == 0)
 		mlx->fract_type = JULIA;
+	else if (ft_strcmp(argc, "Ship") == 0)
+		mlx->fract_type = BURNING_SHIP;
 	else
 		ex_error(1);
     mlx->ptr = mlx_init();
@@ -90,7 +84,6 @@ void	ft_init(t_mlx *mlx, char *argc)
 	mlx->min_Y = -2;
 	mlx->move_x = 1;
 	mlx->move_y = 1;
-//	mlx->zoom = 0;
 	mlx->coef_x = (mlx->max_X - mlx->min_X)/ SIZE_X;
 	mlx->num_iteration = 200;
 }
